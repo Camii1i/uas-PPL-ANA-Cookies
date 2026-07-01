@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import orderService from "../services/orderService";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
   // Simulated state for statistics
-  const [stats] = useState({
-    totalProducts: 5,
-    totalOrders: 124,
-    totalRevenue: "$1,240.50",
-    bestSeller: "Choco Chip",
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalOrders: 0,
+    totalRevenue: 0,
+    bestSeller: "",
   });
+  
+  const [isLoading, setIsLoading] = useState(true);
 
   // Simulated state for recent orders
   const [recentOrders, setRecentOrders] = useState([
@@ -62,6 +65,30 @@ export default function Dashboard() {
     { id: 2, name: "Oatmeal Raisin", remaining: 18, critical: false, iconClass: "bg-secondary-fixed text-on-secondary-container" },
   ]);
 
+  // Fetch dashboard stats
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setIsLoading(true);
+        const data = await orderService.getDashboardStats();
+        if (data) {
+          setStats({
+            totalProducts: data.totalProducts || 0,
+            totalOrders: data.totalOrders || 0,
+            totalRevenue: data.totalRevenue || 0,
+            bestSeller: data.bestSeller || "",
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch dashboard stats:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   const handleRestock = (id, name) => {
     alert(`Restocked ingredient batch for: ${name}!`);
     setAlerts(alerts.filter(a => a.id !== id));
@@ -109,7 +136,7 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Total Products</p>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface">{stats.totalProducts}</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : stats.totalProducts}</h3>
           </div>
         </div>
 
@@ -126,7 +153,7 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Total Orders</p>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface">{stats.totalOrders}</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : stats.totalOrders}</h3>
           </div>
         </div>
 
@@ -146,7 +173,7 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Total Revenue</p>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface">{stats.totalRevenue}</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : `$${(stats.totalRevenue || 0).toFixed(2)}`}</h3>
           </div>
         </div>
 
@@ -160,7 +187,7 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Best Seller</p>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface">{stats.bestSeller}</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : stats.bestSeller}</h3>
           </div>
         </div>
       </div>

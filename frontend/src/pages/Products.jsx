@@ -1,77 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import productService from "../services/productService";
 
 export default function Products() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   
   // Simulated initial products catalog
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Choco Chip Cookies",
-      description: "Classic recipe with premium sea salt and dark chocolate.",
-      category: "Classic",
-      price: 12.00,
-      stock: 50,
-      maxStock: 100,
-      status: "In Stock",
-      colorClass: "bg-secondary",
-      tagClass: "bg-secondary-fixed/30 text-on-secondary-fixed-variant",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuARNwEXgfR9_pDOqUPvhgr7GNrNU9LCVcPt6fpwluzX6qaJhoW54dCAqKP_B9ZX-_Ro8R-cM-sOOv-9bb8kVRwtbOIH25Eqw2A12gZui0vU0x2_MOSLWzgo5Twx4Kn5hCAeu_uu6BTzYis3hs__Njjiyr7UqcWShRQO9-TzXjoPrK6bkNeEcImisACGRYUaiJehySuHAlhcbc32f3FpgHb2bg1TXy2d4DeN8VKw0fh6hW3Ci_0DLWLrqQ"
-    },
-    {
-      id: 2,
-      name: "Matcha Cookies",
-      description: "Ceremonial grade matcha with white chocolate swirls.",
-      category: "Exotic",
-      price: 14.00,
-      stock: 30,
-      maxStock: 100,
-      status: "In Stock",
-      colorClass: "bg-tertiary",
-      tagClass: "bg-tertiary-fixed/30 text-on-tertiary-fixed-variant",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAs6AxUzVZKZMe6fGEDz0-Nfw4e4JmlTYTQWRKOYjHwylZTtZlKsyLn0-U3zGNPB9d1t7As3bwzjdeY_SpEIL7VLxpLH8R1Dv7diDGswmkMoqc-gWynIBsUNdFfyyudUO5BR89HNRfcg2UczyvJVHCcxQg9zLBSjexh-bUa06V-cUFxTjP1fGg4Is8EMBfXhEMAaUq36wPeXf-5lndTCMulywIlFmek0vwyKaEDrYAmqHXop0oEpK81A"
-    },
-    {
-      id: 3,
-      name: "Red Velvet",
-      description: "Cocoa-infused red velvet with a cream cheese core.",
-      category: "Signature",
-      price: 13.50,
-      stock: 45,
-      maxStock: 100,
-      status: "In Stock",
-      colorClass: "bg-secondary",
-      tagClass: "bg-secondary-fixed/30 text-on-secondary-fixed-variant",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCuzoQbndA1jWgCuSXDu-F8qmz4H3XysydvcjVdkYUqpUDQDYX5GCbo-QHAnjLAgN_-Xg3OrzkTzlHeNwVH1YJ14Axqceq7c2yFnaJUmNkBUu2YyDwarv4N8muM1wq7YQuJWEX43RjGf7GhwLyWL3LslfJHdmXU9S1aqTCmCbt8RLiQYtYvvWgbYMXVt4GGZy0b-qtmeVG7ZypopN_WBwBTncxQJ3K4TUpMv_Vz0LhhJRZ7f7ZjUeDPZA"
-    },
-    {
-      id: 4,
-      name: "Double Chocolate",
-      description: "Double the decadence with 70% dark cocoa and chunks.",
-      category: "Signature",
-      price: 15.00,
-      stock: 20,
-      maxStock: 100,
-      status: "Low Stock",
-      colorClass: "bg-error",
-      tagClass: "bg-secondary-fixed/30 text-on-secondary-fixed-variant",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAFW0Clfj6v_ncAF_SNYQT1gccNihg0Nz7KRiOR98BRjmKKDXJtxA14nJFawAmGBfRGFMfyMPuI4i_p1k4Z34HoDVBbtl_0kWcPfiYOnGHUTjm86dqbJawZq14ZqUEuSzkiavMhKdf6GlwGquUhaBNqQrwayqZi2PgIBnLWhlRDYOl0jzCXg2Dl5EPClZkdISzNKCf5GPwxIn_PC6xSXr_l8zp8jyBqkCHbMzU-nEhpd6qeUZLfatg4OA"
-    },
-    {
-      id: 5,
-      name: "Almond Crunch",
-      description: "Toasted California almonds with a honey glaze crunch.",
-      category: "Nutty",
-      price: 14.50,
-      stock: 35,
-      maxStock: 100,
-      status: "In Stock",
-      colorClass: "bg-secondary",
-      tagClass: "bg-tertiary-fixed/30 text-on-tertiary-fixed-variant",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIDnIRp2W-yqNhrny7fHOgTGEmY54wqwjrJ9QHWWk10uqzq_-Kc3XyMIZm39NG4VDHBNKjITDGH992blhrd3O9jgFGM7eP9XPyW17Co5VbmZpgqFWU3juIRXAA_G60gL4H7_EI-tP0xORn1Oh51zcZY25siAAy95xYb3GeLIXysBXyZ5IySIVrfX-c0OUsNL8wx2u9XDh0zWFMGSVlVgE_nrZQnH1kQVH3RSdSMuFIz_x9klRcaoU9Hg"
-    }
-  ]);
+  const [products, setProducts] = useState([]);
+
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await productService.getAllProducts();
+        if (data && Array.isArray(data)) {
+          const transformedProducts = data.map(product => ({
+            id: product.id,
+            name: product.name,
+            description: product.description || "Freshly baked handcrafted bakery selection.",
+            category: product.category || "Classic",
+            price: parseFloat(product.price) || 0,
+            stock: parseInt(product.stock) || 0,
+            maxStock: parseInt(product.maxStock) || 100,
+            status: product.status || (parseInt(product.stock) <= 20 ? "Low Stock" : "In Stock"),
+            colorClass: product.colorClass || (parseInt(product.stock) <= 20 ? "bg-error" : "bg-secondary"),
+            tagClass: product.tagClass || "bg-secondary-fixed/30 text-on-secondary-fixed-variant",
+            image: product.image || "https://lh3.googleusercontent.com/aida-public/AB6AXuARNwEXgfR9_pDOqUPvhgr7GNrNU9LCVcPt6fpwluzX6qaJhoW54dCAqKP_B9ZX-_Ro8R-cM-sOOv-9bb8kVRwtbOIH25Eqw2A12gZui0vU0x2_MOSLWzgo5Twx4Kn5hCAeu_uu6BTzYis3hs__Njjiyr7UqcWShRQO9-TzXjoPrK6bkNeEcImisACGRYUaiJehySuHAlhcbc32f3FpgHb2bg1TXy2d4DeN8VKw0fh6hW3Ci_0DLWLrqQ"
+          }));
+          setProducts(transformedProducts);
+        }
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   // Modal control states
   const [isModalOpen, setIsModalOpen] = useState(false);

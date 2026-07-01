@@ -1,74 +1,87 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import orderService from "../services/orderService";
 
 export default function Orders() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
   // Simulated orders catalog
-  const [orders, setOrders] = useState([
-    {
-      id: "#SC-9021",
-      customerName: "Jane Doe",
-      customerEmail: "jane.doe@example.com",
-      initials: "JD",
-      bgClass: "bg-secondary-fixed text-on-secondary-fixed",
-      date: "Oct 24, 2026",
-      total: 54.20,
-      status: "Processing",
-      statusClass: "bg-[#fce8d5] text-[#714614] border-[#714614]/10",
-      dotClass: "bg-[#714614]",
-      items: [
-        { name: "Signature Choco Chip", quantity: 6, price: 6.00 },
-        { name: "Almond Crunch Cookie", quantity: 2, price: 9.10 }
-      ]
-    },
-    {
-      id: "#SC-9022",
-      customerName: "Bill Smith",
-      customerEmail: "bill@smithbakery.com",
-      initials: "BS",
-      bgClass: "bg-primary-fixed text-on-primary-fixed",
-      date: "Oct 24, 2026",
-      total: 128.50,
-      status: "Completed",
-      statusClass: "bg-[#e7f3e8] text-[#2e7d32] border-[#2e7d32]/10",
-      dotClass: "bg-[#2e7d32]",
-      items: [
-        { name: "Double Chocolate Cookie", quantity: 8, price: 15.00 },
-        { name: "Matcha Cookie swirls", quantity: 1, price: 8.50 }
-      ]
-    },
-    {
-      id: "#SC-9023",
-      customerName: "Alice Miller",
-      customerEmail: "alice@wonderland.co",
-      initials: "AM",
-      bgClass: "bg-surface-variant text-on-surface-variant",
-      date: "Oct 23, 2026",
-      total: 32.00,
-      status: "Pending",
+  const [orders, setOrders] = useState([]);
+
+  // Helper function to get status styling
+  const getStatusStyling = (status) => {
+    const statusMap = {
+      "Processing": {
+        statusClass: "bg-[#fce8d5] text-[#714614] border-[#714614]/10",
+        dotClass: "bg-[#714614]"
+      },
+      "Completed": {
+        statusClass: "bg-[#e7f3e8] text-[#2e7d32] border-[#2e7d32]/10",
+        dotClass: "bg-[#2e7d32]"
+      },
+      "Pending": {
+        statusClass: "bg-[#fff4e5] text-[#ff9800] border-[#ff9800]/10",
+        dotClass: "bg-[#ff9800]"
+      },
+      "Shipped": {
+        statusClass: "bg-[#e3f2fd] text-[#1976d2] border-[#1976d2]/10",
+        dotClass: "bg-[#1976d2]"
+      }
+    };
+    return statusMap[status] || {
       statusClass: "bg-[#fff4e5] text-[#ff9800] border-[#ff9800]/10",
-      dotClass: "bg-[#ff9800]",
-      items: [
-        { name: "Classic Butter Cookies", quantity: 4, price: 8.00 }
-      ]
-    },
-    {
-      id: "#SC-9024",
-      customerName: "Robert Jones",
-      customerEmail: "rj@techhub.com",
-      initials: "RJ",
-      bgClass: "bg-[#fdf2f2] text-[#9b1c1c]",
-      date: "Oct 23, 2026",
-      total: 215.75,
-      status: "Shipped",
-      statusClass: "bg-[#e3f2fd] text-[#1976d2] border-[#1976d2]/10",
-      dotClass: "bg-[#1976d2]",
-      items: [
-        { name: "Gourmet Party Platter", quantity: 2, price: 107.87 }
-      ]
-    }
-  ]);
+      dotClass: "bg-[#ff9800]"
+    };
+  };
+
+  // Helper function to get background color class based on customer name
+  const getBgClass = (index) => {
+    const bgClasses = [
+      "bg-secondary-fixed text-on-secondary-fixed",
+      "bg-primary-fixed text-on-primary-fixed",
+      "bg-surface-variant text-on-surface-variant",
+      "bg-[#fdf2f2] text-[#9b1c1c]"
+    ];
+    return bgClasses[index % bgClasses.length];
+  };
+
+  // Get initials from customer name
+  const getInitials = (name) => {
+    return name.split(" ").map(n => n[0]).join("").toUpperCase();
+  };
+
+  // Fetch orders from API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const data = await orderService.getAllOrders();
+        if (data && Array.isArray(data)) {
+          const transformedOrders = data.map((order, index) => {
+            const statusStyling = getStatusStyling(order.status || "Pending");
+            const customerName = order.customerName || "Unknown Customer";
+            return {
+              id: order.id,
+              customerName,
+              customerEmail: order.customerEmail || "",
+              initials: getInitials(customerName),
+              bgClass: getBgClass(index),
+              date: order.date || new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
+              total: parseFloat(order.total) || 0,
+              status: order.status || "Pending",
+              statusClass: statusStyling.statusClass,
+              dotClass: statusStyling.dotClass,
+              items: order.items || []
+            };
+          });
+          setOrders(transformedOrders);
+        }
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   // Modal control states
   const [selectedOrder, setSelectedOrder] = useState(null);
