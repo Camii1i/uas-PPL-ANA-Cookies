@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import productService from "../services/productService";
+import formatRupiah from "../utils/currency";
 
 export default function Products() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -272,7 +273,7 @@ export default function Products() {
                         {p.category}
                       </span>
                     </td>
-                    <td className="px-md py-md font-label-md text-label-md text-primary">${p.price.toFixed(2)}</td>
+                    <td className="px-md py-md font-label-md text-label-md text-primary">{formatRupiah(p.price)}</td>
                     <td className="px-md py-md">
                       <div className="flex flex-col gap-1">
                         <span className={`font-label-md text-label-md ${p.stock <= 20 ? "text-error font-semibold" : "text-on-surface"}`}>
@@ -408,13 +409,13 @@ export default function Products() {
               {/* Price & Stock */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
-                  <label className="font-label-md text-label-md text-primary uppercase">Price ($) *</label>
+                  <label className="font-label-md text-label-md text-primary uppercase">Price (Rp) *</label>
                   <input
                     type="number"
-                    step="0.01"
+                    step="100"
                     min="0"
                     required
-                    placeholder="12.50"
+                    placeholder="12500"
                     value={formPrice}
                     onChange={(e) => setFormPrice(e.target.value)}
                     className="w-full px-4 py-2.5 bg-surface-bright border border-outline-variant/30 rounded-xl text-sm"

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import formatRupiah from "../utils/currency";
 
 export default function Reports() {
   const [selectedRange, setSelectedRange] = useState("Last 30 Days");
@@ -18,13 +19,13 @@ export default function Reports() {
 
   // Simulated data for trend
   const monthlySales = [
-    { month: "Jan", height: "30%", val: "$380" },
-    { month: "Feb", height: "45%", val: "$520" },
-    { month: "Mar", height: "40%", val: "$490" },
-    { month: "Apr", height: "55%", val: "$680" },
-    { month: "May", height: "70%", val: "$890" },
-    { month: "Jun", height: "65%", val: "$810" },
-    { month: "Jul", height: "90%", val: "$1,240" },
+    { month: "Jan", height: "30%", val: "Rp380.000" },
+    { month: "Feb", height: "45%", val: "Rp520.000" },
+    { month: "Mar", height: "40%", val: "Rp490.000" },
+    { month: "Apr", height: "55%", val: "Rp680.000" },
+    { month: "May", height: "70%", val: "Rp890.000" },
+    { month: "Jun", height: "65%", val: "Rp810.000" },
+    { month: "Jul", height: "90%", val: "Rp1.240.000" },
   ];
 
   return (
@@ -69,7 +70,7 @@ export default function Reports() {
             </span>
           </div>
           <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Avg Order Value</p>
-          <h3 className="font-headline-sm text-headline-sm text-on-surface mt-1">$42.80</h3>
+          <h3 className="font-headline-sm text-headline-sm text-on-surface mt-1">Rp42.800</h3>
         </div>
 
         {/* Monthly Growth */}
@@ -252,7 +253,7 @@ export default function Reports() {
                 </td>
                 <td className="px-md py-5 font-body-md text-body-md text-on-surface-variant">Jul 18, 2026</td>
                 <td className="px-md py-5 font-body-md text-body-md text-on-surface">250x Assorted Cookies</td>
-                <td className="px-md py-5 font-title-lg text-title-lg text-primary text-right font-bold">$750.00</td>
+                <td className="px-md py-5 font-title-lg text-title-lg text-primary text-right font-bold">Rp750.000</td>
                 <td className="px-md py-5">
                   <span className="px-3 py-1 rounded-full bg-[#f4ece1] text-[#7d5c3f] text-[10px] font-bold uppercase tracking-wider">Delivered</span>
                 </td>
@@ -269,7 +270,7 @@ export default function Reports() {
                 </td>
                 <td className="px-md py-5 font-body-md text-body-md text-on-surface-variant">Jul 17, 2026</td>
                 <td className="px-md py-5 font-body-md text-body-md text-on-surface">120x Lavender Shortbread</td>
-                <td className="px-md py-5 font-title-lg text-title-lg text-primary text-right font-bold">$480.00</td>
+                <td className="px-md py-5 font-title-lg text-title-lg text-primary text-right font-bold">Rp480.000</td>
                 <td className="px-md py-5">
                   <span className="px-3 py-1 rounded-full bg-[#fdf5e1] text-[#8d6e1d] text-[10px] font-bold uppercase tracking-wider">Baking</span>
                 </td>

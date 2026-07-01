@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import orderService from "../services/orderService";
+import formatRupiah from "../utils/currency";
 
 export default function Orders() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -296,7 +297,7 @@ export default function Orders() {
                       </div>
                     </td>
                     <td className="px-md py-5 font-body-md text-on-surface-variant">{order.date}</td>
-                    <td className="px-md py-5 font-body-md text-on-surface font-semibold">${order.total.toFixed(2)}</td>
+                    <td className="px-md py-5 font-body-md text-on-surface font-semibold">{formatRupiah(order.total)}</td>
                     <td className="px-md py-5">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold border ${order.statusClass}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${order.dotClass} ${order.status === "Processing" ? "animate-pulse" : ""}`}></span>
@@ -410,12 +411,12 @@ export default function Orders() {
                       <p className="font-semibold text-on-surface">{item.name}</p>
                       <p className="text-on-surface-variant">Qty: {item.quantity}</p>
                     </div>
-                    <p className="font-semibold text-on-surface">${(item.quantity * item.price).toFixed(2)}</p>
+                    <p className="font-semibold text-on-surface">{formatRupiah(item.quantity * item.price)}</p>
                   </div>
                 ))}
                 <div className="p-3 bg-surface-container-low/50 flex justify-between items-center text-xs font-bold border-t">
                   <p className="text-on-surface">Total Charge</p>
-                  <p className="text-primary text-sm">${selectedOrder.total.toFixed(2)}</p>
+                  <p className="text-primary text-sm">{formatRupiah(selectedOrder.total)}</p>
                 </div>
               </div>
             </div>

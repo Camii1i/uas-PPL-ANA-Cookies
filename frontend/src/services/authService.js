@@ -28,7 +28,16 @@ const authService = {
   },
 
   getToken: () => localStorage.getItem("token"),
-  getUser: () => JSON.parse(localStorage.getItem("user") || "null")
+  getUser: () => JSON.parse(localStorage.getItem("user") || "null"),
+
+  isAuthenticated: () => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    if (!token || !user) return false;
+    // Basic JWT structure validation
+    const tokenParts = token.split(".");
+    return tokenParts.length === 3;
+  }
 };
 
 export default authService;

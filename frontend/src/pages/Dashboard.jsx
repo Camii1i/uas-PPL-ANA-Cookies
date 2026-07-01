@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import orderService from "../services/orderService";
+import formatRupiah from "../utils/currency";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Dashboard() {
       initials: "EJ",
       bgClass: "bg-secondary-fixed text-on-secondary-fixed",
       date: "Oct 24, 10:30 AM",
-      total: "$45.00",
+      total: "Rp45.000",
       status: "Baking",
       statusClass: "bg-orange-100 text-orange-700",
     },
@@ -33,7 +34,7 @@ export default function Dashboard() {
       initials: "MR",
       bgClass: "bg-primary-fixed text-on-primary-fixed",
       date: "Oct 24, 09:15 AM",
-      total: "$32.50",
+      total: "Rp32.500",
       status: "Delivered",
       statusClass: "bg-green-100 text-green-700",
     },
@@ -43,7 +44,7 @@ export default function Dashboard() {
       initials: "SH",
       bgClass: "bg-tertiary-fixed text-on-tertiary-fixed",
       date: "Oct 23, 05:40 PM",
-      total: "$120.00",
+      total: "Rp120.000",
       status: "Pending",
       statusClass: "bg-blue-100 text-blue-700",
     },
@@ -53,7 +54,7 @@ export default function Dashboard() {
       initials: "BT",
       bgClass: "bg-outline-variant text-on-surface-variant",
       date: "Oct 23, 03:20 PM",
-      total: "$18.90",
+      total: "Rp18.900",
       status: "Delivered",
       statusClass: "bg-green-100 text-green-700",
     },
@@ -173,7 +174,7 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Total Revenue</p>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : `$${(stats.totalRevenue || 0).toFixed(2)}`}</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : formatRupiah(stats.totalRevenue || 0)}</h3>
           </div>
         </div>
 
@@ -321,8 +322,8 @@ export default function Dashboard() {
           <div className="relative z-10">
             <h4 className="font-headline-md text-headline-md mb-2">Holiday Pre-orders</h4>
             <p className="font-body-lg text-body-lg mb-6 max-w-md opacity-90">Prepare your inventory for the Christmas rush. We're expecting a 40% increase in gift box orders this season.</p>
-            <button 
-              onClick={() => alert("Prep schedule draft loaded!")}
+            <button
+              onClick={() => navigate("/products")}
               className="bg-white text-primary px-6 py-3 rounded-full font-label-md text-label-md hover:bg-primary-fixed transition-colors cursor-pointer"
             >
               Manage Prep Schedule

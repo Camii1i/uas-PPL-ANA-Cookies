@@ -12,10 +12,24 @@ export default function ProtectedRoute({ children }) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  // Optional: Validate token structure (basic check)
-  // JWT tokens have 3 parts separated by dots
+  // Validate token structure (JWT has 3 parts separated by dots)
   const tokenParts = token.split(".");
   if (tokenParts.length !== 3) {
+    authService.logout();
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  // Decode payload and check expiration
+  try {
+    const payload = JSON.parse(atob(tokenParts[1]));
+    const now = Math.floor(Date.now() / 1000);
+    if (payload.exp && payload.exp < now) {
+      // Token has expired
+      authService.logout();
+      return <Navigate to="/" state={{ from: location }} replace />;
+    }
+  } catch {
+    // Invalid payload encoding
     authService.logout();
     return <Navigate to="/" state={{ from: location }} replace />;
   }

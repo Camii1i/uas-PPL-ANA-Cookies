@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import authService from "../services/authService";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("chef@sweetcrumbs.com");
   const [password, setPassword] = useState("password123");
   const [showPassword, setShowPassword] = useState(false);
@@ -11,10 +12,18 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Redirect to dashboard if already logged in
+  const token = authService.getToken();
+  const user = authService.getUser();
+  if (token && user) {
+    navigate("/dashboard", { replace: true });
+    return null;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    
+
     if (!email || !password) {
       setError("Please fill in all fields.");
       return;
@@ -22,13 +31,15 @@ export default function Login() {
 
     setIsLoading(true);
     const result = await authService.login(email, password);
-    
+
     if (result.success) {
-      navigate("/dashboard");
+      // Navigate to the page the user was originally trying to access
+      const destination = location.state?.from?.pathname || "/dashboard";
+      navigate(destination, { replace: true });
     } else {
       setError(result.message || "Login failed");
     }
-    
+
     setIsLoading(false);
   };
 
