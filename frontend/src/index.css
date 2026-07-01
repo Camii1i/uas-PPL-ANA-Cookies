@@ -53,15 +53,15 @@
   --radius-lg: 0.5rem;
   --radius-DEFAULT: 0.25rem;
 
-  --spacing-md: 24px;
+  --spacing-medium: 24px;
   --spacing-margin-desktop: 48px;
-  --spacing-xl: 64px;
+  --spacing-x-large: 64px;
   --spacing-base: 4px;
   --spacing-gutter: 24px;
-  --spacing-lg: 40px;
+  --spacing-large: 40px;
   --spacing-margin-mobile: 16px;
-  --spacing-xs: 8px;
-  --spacing-sm: 16px;
+  --spacing-x-small: 8px;
+  --spacing-small: 16px;
 
   --font-headline-md: "Playfair Display", serif;
   --font-display-lg-mobile: "Playfair Display", serif;

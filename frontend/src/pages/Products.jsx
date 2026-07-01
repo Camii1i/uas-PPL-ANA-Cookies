@@ -139,9 +139,9 @@ export default function Products() {
   });
 
   return (
-    <div className="p-md md:p-margin-desktop space-y-lg animate-in fade-in duration-300">
+    <div className="p-medium md:p-margin-desktop space-y-large animate-in fade-in duration-300">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-md">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-medium">
         <div>
           <h2 className="font-headline-md text-[32px] text-primary mb-1">Products</h2>
           <nav className="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
@@ -161,7 +161,7 @@ export default function Products() {
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-        <div className="bg-white p-md rounded-[24px] premium-shadow border border-outline-variant/10">
+        <div className="bg-white p-medium rounded-[24px] premium-shadow border border-outline-variant/10">
           <div className="flex justify-between items-start mb-4">
             <div className="w-12 h-12 bg-primary-fixed rounded-2xl flex items-center justify-center text-primary">
               <span className="material-symbols-outlined">inventory_2</span>
@@ -172,7 +172,7 @@ export default function Products() {
           <h3 className="font-headline-sm text-headline-sm text-on-surface">{products.length} Items</h3>
         </div>
 
-        <div className="bg-white p-md rounded-[24px] premium-shadow border border-outline-variant/10">
+        <div className="bg-white p-medium rounded-[24px] premium-shadow border border-outline-variant/10">
           <div className="flex justify-between items-start mb-4">
             <div className="w-12 h-12 bg-tertiary-fixed rounded-2xl flex items-center justify-center text-tertiary">
               <span className="material-symbols-outlined">warning</span>
@@ -185,7 +185,7 @@ export default function Products() {
           </h3>
         </div>
 
-        <div className="bg-primary p-md rounded-[24px] premium-shadow text-on-primary">
+        <div className="bg-primary p-medium rounded-[24px] premium-shadow text-on-primary">
           <div className="flex justify-between items-start mb-4">
             <div className="w-12 h-12 bg-on-primary/10 rounded-2xl flex items-center justify-center">
               <span className="material-symbols-outlined text-white">trending_up</span>
@@ -199,8 +199,8 @@ export default function Products() {
       {/* Product Table Container */}
       <div className="bg-white rounded-[24px] premium-shadow border border-outline-variant/10 overflow-hidden">
         {/* Table Filters */}
-        <div className="p-md border-b border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-md">
-          <div className="flex items-center gap-sm">
+        <div className="p-medium border-b border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-medium">
+          <div className="flex items-center gap-small">
             <h4 className="font-title-lg text-title-lg text-primary">Master Catalog</h4>
             <span className="text-on-surface-variant font-label-md bg-surface-container px-2 py-0.5 rounded">v2.4</span>
           </div>
@@ -236,25 +236,25 @@ export default function Products() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr class="bg-surface-container-low/50">
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Product</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Category</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Price</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Stock Status</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Product</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Category</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Price</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Stock Status</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
               {filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-md py-8 text-center text-on-surface-variant font-body-md">
+                  <td colSpan="5" className="px-medium py-8 text-center text-on-surface-variant font-body-md">
                     No products found matching the query.
                   </td>
                 </tr>
               ) : (
                 filteredProducts.map((p) => (
                   <tr key={p.id} className="hover:bg-surface-bright transition-colors group">
-                    <td className="px-md py-md">
-                      <div className="flex items-center gap-md">
+                    <td className="px-medium py-medium">
+                      <div className="flex items-center gap-medium">
                         <div className="w-14 h-14 rounded-xl overflow-hidden shadow-sm flex-shrink-0 bg-surface-container">
                           <img 
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
@@ -268,13 +268,13 @@ export default function Products() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-md py-md">
+                    <td className="px-medium py-medium">
                       <span className={`font-label-md text-label-md px-3 py-1 rounded-full ${p.tagClass}`}>
                         {p.category}
                       </span>
                     </td>
-                    <td className="px-md py-md font-label-md text-label-md text-primary">{formatRupiah(p.price)}</td>
-                    <td className="px-md py-md">
+                    <td className="px-medium py-medium font-label-md text-label-md text-primary">{formatRupiah(p.price)}</td>
+                    <td className="px-medium py-medium">
                       <div className="flex flex-col gap-1">
                         <span className={`font-label-md text-label-md ${p.stock <= 20 ? "text-error font-semibold" : "text-on-surface"}`}>
                           {p.stock} In Stock
@@ -284,7 +284,7 @@ export default function Products() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-md py-md text-right">
+                    <td className="px-medium py-medium text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button 
                           onClick={() => openEditModal(p)}
@@ -308,7 +308,7 @@ export default function Products() {
         </div>
 
         {/* Pagination */}
-        <div className="px-md py-4 bg-surface-container-low/30 border-t border-outline-variant/10 flex items-center justify-between">
+        <div className="px-medium py-4 bg-surface-container-low/30 border-t border-outline-variant/10 flex items-center justify-between">
           <p className="font-label-md text-label-md text-on-surface-variant">
             Showing {filteredProducts.length} of {products.length} products
           </p>
@@ -326,11 +326,11 @@ export default function Products() {
       </div>
 
       {/* Promotion Recommendation Section */}
-      <div className="mt-lg relative overflow-hidden rounded-[32px] p-xl glass-card premium-shadow flex flex-col md:flex-row items-center gap-lg">
+      <div className="mt-large relative overflow-hidden rounded-[32px] p-x-large glass-card premium-shadow flex flex-col md:flex-row items-center gap-large">
         <div className="relative z-10 flex-1 text-center md:text-left">
           <span className="bg-secondary/10 text-secondary px-4 py-1 rounded-full font-label-md text-label-md uppercase tracking-widest mb-4 inline-block">Production Insight</span>
           <h3 className="font-headline-md text-[32px] text-primary mb-4 font-bold">Optimize Your Oven Schedule</h3>
-          <p className="text-body-lg text-on-surface-variant mb-6 max-w-xl">Our smart analytics suggests increasing Red Velvet production by 15% this weekend to meet projected demand based on local events.</p>
+          <p className="text-body-lg text-on-surface-variant mb-6 max-w-[36rem]">Our smart analytics suggests increasing Red Velvet production by 15% this weekend to meet projected demand based on local events.</p>
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <button 
               onClick={() => alert("Insight applied successfully!")}
@@ -364,7 +364,7 @@ export default function Products() {
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
           
           {/* Modal Container */}
-          <div className="relative bg-surface-container-lowest rounded-3xl shadow-2xl border border-outline-variant/20 p-md md:p-lg w-full max-w-[540px] z-10 animate-in zoom-in-95 duration-200 flex flex-col gap-md">
+          <div className="relative bg-surface-container-lowest rounded-3xl shadow-2xl border border-outline-variant/20 p-medium md:p-lg w-full max-w-[540px] z-10 animate-in zoom-in-95 duration-200 flex flex-col gap-medium">
             <div className="flex justify-between items-center">
               <h3 className="font-headline-sm text-[24px] text-primary font-bold">
                 {modalMode === "add" ? "Create New Product Batch" : "Edit Catalog Item"}
@@ -481,7 +481,7 @@ export default function Products() {
       )}
 
       {/* Footer */}
-      <footer className="py-md border-t border-outline-variant/10 text-on-surface-variant text-center md:text-left mt-lg">
+      <footer className="py-medium border-t border-outline-variant/10 text-on-surface-variant text-center md:text-left mt-large">
         <p className="font-label-md text-label-md">© 2026 SweetCrumbs Bakery Admin. Handcrafted for excellence.</p>
       </footer>
     </div>

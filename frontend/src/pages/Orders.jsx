@@ -59,15 +59,18 @@ export default function Orders() {
         if (data && Array.isArray(data)) {
           const transformedOrders = data.map((order, index) => {
             const statusStyling = getStatusStyling(order.status || "Pending");
-            const customerName = order.customerName || "Unknown Customer";
+            const customerName = order.customer_name || order.customerName || "Unknown Customer";
             return {
               id: order.id,
+              orderNumber: order.order_number || "",
               customerName,
-              customerEmail: order.customerEmail || "",
+              customerEmail: order.customer_email || order.customerEmail || "",
               initials: getInitials(customerName),
               bgClass: getBgClass(index),
-              date: order.date || new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
-              total: parseFloat(order.total) || 0,
+              date: order.created_at
+                ? new Date(order.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+                : (order.date || new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })),
+              total: parseFloat(order.total_price ?? order.total) || 0,
               status: order.status || "Pending",
               statusClass: statusStyling.statusClass,
               dotClass: statusStyling.dotClass,
@@ -159,14 +162,14 @@ export default function Orders() {
   });
 
   return (
-    <div className="p-md md:p-margin-desktop space-y-lg animate-in fade-in duration-300">
+    <div className="p-6 md:p-12 space-y-10 animate-in fade-in duration-300">
       {/* Breadcrumbs & Action Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-md">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="font-headline-md text-[32px] text-primary">Order Management</h1>
           <p className="font-body-md text-on-surface-variant mt-1">Review and manage your daily gourmet cookie batches.</p>
         </div>
-        <div className="flex items-center gap-sm">
+        <div className="flex items-center gap-4">
           {/* Quick search input */}
           <div className="relative w-48 md:w-64">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
@@ -179,7 +182,7 @@ export default function Orders() {
           </div>
           <button 
             onClick={handleExportManifest}
-            className="px-md py-2.5 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:shadow-lg transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
+            className="px-6 py-2.5 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:shadow-lg transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
           >
             <span className="material-symbols-outlined text-[20px]">download</span>
             Export Manifest
@@ -188,43 +191,43 @@ export default function Orders() {
       </div>
 
       {/* Bento Stats Overview */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-gutter">
-        <div className="bg-surface-container-lowest p-md rounded-[24px] card-shadow flex items-center gap-md border border-outline-variant/20">
-          <div className="w-12 h-12 bg-secondary-container/30 text-secondary rounded-2xl flex items-center justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="bg-surface-container-lowest p-6 rounded-[24px] card-shadow flex items-center gap-6 border border-outline-variant/20">
+          <div className="w-12 h-12 shrink-0 bg-secondary-container/30 text-secondary rounded-2xl flex items-center justify-center">
             <span className="material-symbols-outlined">receipt_long</span>
           </div>
-          <div>
-            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70">Total Orders</p>
+          <div className="min-w-0">
+            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70 truncate">Total Orders</p>
             <p className="font-headline-sm text-headline-sm text-on-surface">1,284</p>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-md rounded-[24px] card-shadow flex items-center gap-md border border-outline-variant/20">
-          <div className="w-12 h-12 bg-tertiary-container/20 text-tertiary rounded-2xl flex items-center justify-center">
+        <div className="bg-surface-container-lowest p-6 rounded-[24px] card-shadow flex items-center gap-6 border border-outline-variant/20">
+          <div className="w-12 h-12 shrink-0 bg-tertiary-container/20 text-tertiary rounded-2xl flex items-center justify-center">
             <span className="material-symbols-outlined">skillet</span>
           </div>
-          <div>
-            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70">Active Batches</p>
+          <div className="min-w-0">
+            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70 truncate">Active Batches</p>
             <p className="font-headline-sm text-headline-sm text-on-surface">24</p>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-md rounded-[24px] card-shadow flex items-center gap-md border border-outline-variant/20">
-          <div className="w-12 h-12 bg-primary-fixed text-on-primary-fixed-variant rounded-2xl flex items-center justify-center">
+        <div className="bg-surface-container-lowest p-6 rounded-[24px] card-shadow flex items-center gap-6 border border-outline-variant/20">
+          <div className="w-12 h-12 shrink-0 bg-primary-fixed text-on-primary-fixed-variant rounded-2xl flex items-center justify-center">
             <span className="material-symbols-outlined">local_shipping</span>
           </div>
-          <div>
-            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70">Ready to Ship</p>
+          <div className="min-w-0">
+            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70 truncate">Ready to Ship</p>
             <p className="font-headline-sm text-headline-sm text-on-surface">112</p>
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest p-md rounded-[24px] card-shadow flex items-center gap-md border border-outline-variant/20">
-          <div className="w-12 h-12 bg-error-container/40 text-error rounded-2xl flex items-center justify-center">
+        <div className="bg-surface-container-lowest p-6 rounded-[24px] card-shadow flex items-center gap-6 border border-outline-variant/20">
+          <div className="w-12 h-12 shrink-0 bg-error-container/40 text-error rounded-2xl flex items-center justify-center">
             <span className="material-symbols-outlined">pending</span>
           </div>
-          <div>
-            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70">Pending</p>
+          <div className="min-w-0">
+            <p className="font-label-md text-label-md uppercase text-on-surface-variant/70 truncate">Pending</p>
             <p className="font-headline-sm text-headline-sm text-on-surface">12</p>
           </div>
         </div>
@@ -232,9 +235,9 @@ export default function Orders() {
 
       {/* Main Order Table Card */}
       <div className="bg-surface-container-lowest rounded-[24px] card-shadow border border-outline-variant/20 overflow-hidden">
-        <div className="px-md py-md border-b border-outline-variant/20 flex flex-col sm:flex-row justify-between items-center gap-sm">
+        <div className="px-6 py-6 border-b border-outline-variant/20 flex flex-col sm:flex-row justify-between items-center gap-4">
           <h2 className="font-title-lg text-title-lg text-primary font-bold">Recent Orders</h2>
-          <div className="flex gap-xs bg-surface-container p-1 rounded-xl">
+          <div className="flex gap-2 bg-surface-container p-1 rounded-xl">
             <button
               onClick={() => setStatusFilter("All")}
               className={`px-4 py-1.5 font-label-md text-label-md rounded-lg transition-all cursor-pointer ${
@@ -265,28 +268,28 @@ export default function Orders() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-surface-container-low/50">
-                <th className="px-md py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Order ID</th>
-                <th className="px-md py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Customer</th>
-                <th className="px-md py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Date</th>
-                <th className="px-md py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Total</th>
-                <th className="px-md py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Status</th>
-                <th className="px-md py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider text-right">Actions</th>
+              <tr className="bg-surface-container-low/50">
+                <th className="px-6 py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Order ID</th>
+                <th className="px-6 py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Customer</th>
+                <th className="px-6 py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Date</th>
+                <th className="px-6 py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Total</th>
+                <th className="px-6 py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider">Status</th>
+                <th className="px-6 py-4 font-label-md text-label-md uppercase text-on-surface-variant/70 tracking-wider text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/20">
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-md py-8 text-center text-on-surface-variant font-body-md">
+                  <td colSpan="6" className="px-6 py-8 text-center text-on-surface-variant font-body-md">
                     No orders matching selected criteria.
                   </td>
                 </tr>
               ) : (
                 filteredOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-surface-container-low/30 transition-colors group">
-                    <td className="px-md py-5 font-label-md text-primary">{order.id}</td>
-                    <td className="px-md py-5">
-                      <div className="flex items-center gap-sm">
+                    <td className="px-6 py-5 font-label-md text-primary">{order.id}</td>
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-4">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${order.bgClass}`}>
                           {order.initials}
                         </div>
@@ -296,15 +299,15 @@ export default function Orders() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-md py-5 font-body-md text-on-surface-variant">{order.date}</td>
-                    <td className="px-md py-5 font-body-md text-on-surface font-semibold">{formatRupiah(order.total)}</td>
-                    <td className="px-md py-5">
+                    <td className="px-6 py-5 font-body-md text-on-surface-variant">{order.date}</td>
+                    <td className="px-6 py-5 font-body-md text-on-surface font-semibold">{formatRupiah(order.total)}</td>
+                    <td className="px-6 py-5">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold border ${order.statusClass}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${order.dotClass} ${order.status === "Processing" ? "animate-pulse" : ""}`}></span>
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-md py-5 text-right">
+                    <td className="px-6 py-5 text-right">
                       <button 
                         onClick={() => openOrderDetails(order)}
                         className="p-2 text-on-surface-variant hover:text-primary hover:bg-primary-fixed/30 rounded-lg transition-all cursor-pointer"
@@ -320,7 +323,7 @@ export default function Orders() {
         </div>
 
         {/* Pagination */}
-        <div className="px-md py-4 bg-surface-container-low/30 flex items-center justify-between border-t border-outline-variant/20">
+        <div className="px-6 py-4 bg-surface-container-low/30 flex items-center justify-between border-t border-outline-variant/20">
           <p className="font-body-md text-[12px] text-on-surface-variant">Showing {filteredOrders.length} of {orders.length} orders</p>
           <div className="flex items-center gap-2">
             <button className="p-2 text-on-surface-variant hover:text-primary disabled:opacity-50 cursor-pointer" disabled>
@@ -338,7 +341,7 @@ export default function Orders() {
       </div>
 
       {/* Promotion / Atmosphere Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recipe/Batch Card */}
         <div className="lg:col-span-2 relative h-64 rounded-[24px] overflow-hidden group card-shadow">
           <div
@@ -348,15 +351,15 @@ export default function Orders() {
             }}
             alt="Artisanal chocolate chip cookies in progress"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/40 to-transparent flex flex-col justify-end p-md">
+          <div className="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/40 to-transparent flex flex-col justify-end p-6">
             <span className="px-3 py-1 bg-tertiary text-on-tertiary text-[10px] font-bold uppercase rounded-full w-fit mb-2">New Flavor Release</span>
             <h3 className="font-headline-sm text-headline-sm text-white font-bold">Caramel Sea Salt Batches</h3>
-            <p className="font-body-md text-white/80 max-w-md">Upcoming peak season requires 20% higher production volume for the artisan collection.</p>
+            <p className="font-body-md text-white/80 max-w-[28rem]">Upcoming peak season requires 20% higher production volume for the artisan collection.</p>
           </div>
         </div>
 
         {/* Support/Quick Action Card */}
-        <div className="bg-primary-container text-on-primary-container p-md rounded-[24px] flex flex-col justify-between card-shadow">
+        <div className="bg-primary-container text-on-primary-container p-6 rounded-[24px] flex flex-col justify-between card-shadow">
           <div>
             <span className="material-symbols-outlined text-[32px] mb-2 text-on-primary-container/80">bakery_dining</span>
             <h4 className="font-title-lg text-title-lg font-bold">Inventory Warning</h4>
@@ -364,7 +367,7 @@ export default function Orders() {
           </div>
           <button 
             onClick={() => alert("Restock order placed with vanilla supplier!")}
-            className="mt-md w-full py-3 bg-on-primary-container text-primary-container font-label-md text-label-md rounded-xl hover:bg-white transition-all active:scale-95 cursor-pointer font-semibold"
+            className="mt-6 w-full py-3 bg-on-primary-container text-primary-container font-label-md text-label-md rounded-xl hover:bg-white transition-all active:scale-95 cursor-pointer font-semibold"
           >
             Order Supplies
           </button>
@@ -376,7 +379,7 @@ export default function Orders() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
           
-          <div className="relative bg-surface-container-lowest rounded-3xl shadow-2xl border border-outline-variant/20 p-md md:p-lg w-full max-w-[500px] z-10 animate-in zoom-in-95 duration-200 flex flex-col gap-md text-left">
+          <div className="relative bg-surface-container-lowest rounded-3xl shadow-2xl border border-outline-variant/20 p-6 md:p-10 w-full max-w-[500px] z-10 animate-in zoom-in-95 duration-200 flex flex-col gap-6 text-left">
             <div className="flex justify-between items-center border-b border-outline-variant/10 pb-3">
               <div>
                 <h3 className="font-headline-sm text-[20px] text-primary font-bold">Order Details</h3>
@@ -391,7 +394,7 @@ export default function Orders() {
             </div>
 
             {/* Customer info */}
-            <div className="flex items-center gap-sm">
+            <div className="flex items-center gap-4">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${selectedOrder.bgClass}`}>
                 {selectedOrder.initials}
               </div>

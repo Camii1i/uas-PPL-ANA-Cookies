@@ -31,12 +31,12 @@ export default function Reports() {
   return (
     <section className="p-margin-desktop space-y-gutter animate-in fade-in duration-300 relative">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-medium">
         <div>
           <h2 className="font-headline-md text-[32px] text-primary">Sales Reports</h2>
           <p className="font-body-md text-body-md text-on-surface-variant">Reviewing your bakery's performance for Q3 2026</p>
         </div>
-        <div className="flex gap-sm">
+        <div className="flex gap-small">
           <select
             value={selectedRange}
             onChange={(e) => setSelectedRange(e.target.value)}
@@ -60,7 +60,7 @@ export default function Reports() {
       {/* Stats Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
         {/* Avg Order Value */}
-        <div className="bg-surface-container-lowest p-md rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
+        <div className="bg-surface-container-lowest p-medium rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
           <div className="flex justify-between items-start mb-sm">
             <div className="p-2 bg-primary-fixed rounded-lg text-primary flex items-center justify-center">
               <span className="material-symbols-outlined">payments</span>
@@ -74,7 +74,7 @@ export default function Reports() {
         </div>
 
         {/* Monthly Growth */}
-        <div className="bg-surface-container-lowest p-md rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
+        <div className="bg-surface-container-lowest p-medium rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
           <div className="flex justify-between items-start mb-sm">
             <div className="p-2 bg-secondary-fixed rounded-lg text-secondary flex items-center justify-center">
               <span className="material-symbols-outlined">show_chart</span>
@@ -88,7 +88,7 @@ export default function Reports() {
         </div>
 
         {/* Peak Sales Time */}
-        <div className="bg-surface-container-lowest p-md rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
+        <div className="bg-surface-container-lowest p-medium rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
           <div className="flex justify-between items-start mb-sm">
             <div className="p-2 bg-tertiary-fixed rounded-lg text-tertiary flex items-center justify-center">
               <span className="material-symbols-outlined">schedule</span>
@@ -99,7 +99,7 @@ export default function Reports() {
         </div>
 
         {/* Highlight Card */}
-        <div className="bg-primary p-md rounded-[24px] shadow-[0_4px_20px_rgba(111,70,39,0.2)] text-on-primary md:col-span-1 lg:col-span-1 flex flex-col justify-center">
+        <div className="bg-primary p-medium rounded-[24px] shadow-[0_4px_20px_rgba(111,70,39,0.2)] text-on-primary md:col-span-1 lg:col-span-1 flex flex-col justify-center">
           <p className="font-label-md text-label-md opacity-80 uppercase tracking-widest">Top Performance</p>
           <h3 className="font-headline-sm text-headline-sm mt-2">Perfect Week</h3>
           <p className="text-body-md mt-1 opacity-90 leading-relaxed">Sales increased by 15% during morning hours this week.</p>
@@ -109,10 +109,10 @@ export default function Reports() {
       {/* Visual Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
         {/* Monthly Revenue Chart */}
-        <div className="lg:col-span-2 bg-surface-container-lowest p-md rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50 flex flex-col">
+        <div className="lg:col-span-2 bg-surface-container-lowest p-medium rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50 flex flex-col">
           <div className="flex justify-between items-center mb-lg">
             <h4 className="font-title-lg text-title-lg text-on-surface font-bold">Monthly Revenue Trend</h4>
-            <div className="flex gap-xs items-center">
+            <div className="flex gap-x-small items-center">
               <span className="w-3 h-3 bg-primary rounded-full"></span>
               <span className="font-label-md text-label-md text-on-surface-variant">2026 Sales</span>
             </div>
@@ -148,7 +148,7 @@ export default function Reports() {
         </div>
 
         {/* Best Selling Products */}
-        <div className="bg-surface-container-lowest p-md rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
+        <div className="bg-surface-container-lowest p-medium rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50">
           <h4 className="font-title-lg text-title-lg text-on-surface mb-lg font-bold">Best Selling Products</h4>
           <div className="space-y-6 text-left">
             {/* Choco Chip */}
@@ -207,7 +207,7 @@ export default function Reports() {
               </div>
             </div>
           </div>
-          <div className="mt-lg pt-md border-t border-outline-variant/30 text-center">
+          <div className="mt-large pt-md border-t border-outline-variant/30 text-center">
             <button 
               onClick={() => alert("Loading granular item logs...")}
               className="text-primary font-label-md text-label-md hover:underline cursor-pointer font-bold"
@@ -220,7 +220,7 @@ export default function Reports() {
 
       {/* Recent High-Value Transactions */}
       <div className="bg-surface-container-lowest rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] border border-white/50 overflow-hidden">
-        <div className="p-md border-b border-outline-variant/30 flex justify-between items-center">
+        <div className="p-medium border-b border-outline-variant/30 flex justify-between items-center">
           <h4 className="font-title-lg text-title-lg text-on-surface font-bold">High-Value Batch Orders</h4>
           <button 
             onClick={() => alert("Actions list shown.")}
@@ -233,16 +233,16 @@ export default function Reports() {
           <table className="w-full text-left">
             <thead>
               <tr class="bg-surface-container-low">
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase">Customer</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase">Order Date</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase">Products</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase text-right">Revenue</th>
-                <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase">Customer</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase">Order Date</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase">Products</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase text-right">Revenue</th>
+                <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/20">
               <tr className="hover:bg-surface-container-lowest transition-colors">
-                <td className="px-md py-5">
+                <td className="px-medium py-5">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center font-bold text-secondary text-xs">EC</div>
                     <div>
@@ -251,15 +251,15 @@ export default function Reports() {
                     </div>
                   </div>
                 </td>
-                <td className="px-md py-5 font-body-md text-body-md text-on-surface-variant">Jul 18, 2026</td>
-                <td className="px-md py-5 font-body-md text-body-md text-on-surface">250x Assorted Cookies</td>
-                <td className="px-md py-5 font-title-lg text-title-lg text-primary text-right font-bold">Rp750.000</td>
-                <td className="px-md py-5">
+                <td className="px-medium py-5 font-body-md text-body-md text-on-surface-variant">Jul 18, 2026</td>
+                <td className="px-medium py-5 font-body-md text-body-md text-on-surface">250x Assorted Cookies</td>
+                <td className="px-medium py-5 font-title-lg text-title-lg text-primary text-right font-bold">Rp750.000</td>
+                <td className="px-medium py-5">
                   <span className="px-3 py-1 rounded-full bg-[#f4ece1] text-[#7d5c3f] text-[10px] font-bold uppercase tracking-wider">Delivered</span>
                 </td>
               </tr>
               <tr className="hover:bg-surface-container-lowest transition-colors">
-                <td className="px-md py-5">
+                <td className="px-medium py-5">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center font-bold text-tertiary text-xs">GH</div>
                     <div>
@@ -268,10 +268,10 @@ export default function Reports() {
                     </div>
                   </div>
                 </td>
-                <td className="px-md py-5 font-body-md text-body-md text-on-surface-variant">Jul 17, 2026</td>
-                <td className="px-md py-5 font-body-md text-body-md text-on-surface">120x Lavender Shortbread</td>
-                <td className="px-md py-5 font-title-lg text-title-lg text-primary text-right font-bold">Rp480.000</td>
-                <td className="px-md py-5">
+                <td className="px-medium py-5 font-body-md text-body-md text-on-surface-variant">Jul 17, 2026</td>
+                <td className="px-medium py-5 font-body-md text-body-md text-on-surface">120x Lavender Shortbread</td>
+                <td className="px-medium py-5 font-title-lg text-title-lg text-primary text-right font-bold">Rp480.000</td>
+                <td className="px-medium py-5">
                   <span className="px-3 py-1 rounded-full bg-[#fdf5e1] text-[#8d6e1d] text-[10px] font-bold uppercase tracking-wider">Baking</span>
                 </td>
               </tr>

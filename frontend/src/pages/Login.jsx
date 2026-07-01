@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import authService from "../services/authService";
 
@@ -12,13 +12,15 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redirect to dashboard if already logged in
-  const token = authService.getToken();
-  const user = authService.getUser();
-  if (token && user) {
-    navigate("/dashboard", { replace: true });
-    return null;
-  }
+  // Redirect to dashboard if already logged in (must run as an effect,
+  // never call navigate() directly during render)
+  useEffect(() => {
+    const token = authService.getToken();
+    const user = authService.getUser();
+    if (token && user) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,9 +62,9 @@ export default function Login() {
       {/* Login Container */}
       <div className="relative z-10 min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop">
         {/* Central Card */}
-        <div className="w-full max-w-[480px] bg-surface-container-lowest rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] p-md md:p-xl flex flex-col gap-lg animate-in fade-in zoom-in-95 duration-300">
+        <div className="w-full max-w-[480px] bg-surface-container-lowest rounded-[24px] shadow-[0_4px_20px_rgba(62,39,35,0.06)] p-medium md:p-x-large flex flex-col gap-large animate-in fade-in zoom-in-95 duration-300">
           {/* Brand Identity */}
-          <div className="text-center flex flex-col gap-xs">
+          <div className="text-center flex flex-col gap-x-small">
             <div className="flex justify-center mb-xs">
               <span className="material-symbols-outlined text-primary text-[48px] select-none" style={{ fontVariationSettings: "'FILL' 1" }}>
                 bakery_dining
@@ -73,7 +75,7 @@ export default function Login() {
           </div>
 
           {/* Login Form */}
-          <form className="flex flex-col gap-md" onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-medium" onSubmit={handleSubmit}>
             {error && (
               <div className="p-3 bg-error-container/30 border border-error/20 rounded-xl text-error text-xs flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm">error</span>
@@ -82,7 +84,7 @@ export default function Login() {
             )}
 
             {/* Email Field */}
-            <div className="flex flex-col gap-xs transition-all duration-200">
+            <div className="flex flex-col gap-x-small transition-all duration-200">
               <label className="font-label-md text-label-md text-primary uppercase">Email Address</label>
               <div className="relative flex items-center group">
                 <span className="material-symbols-outlined absolute left-4 text-outline group-focus-within:text-primary transition-colors select-none">
@@ -99,7 +101,7 @@ export default function Login() {
             </div>
 
             {/* Password Field */}
-            <div className="flex flex-col gap-xs transition-all duration-200">
+            <div className="flex flex-col gap-x-small transition-all duration-200">
               <div className="flex justify-between items-center">
                 <label className="font-label-md text-label-md text-primary uppercase">Password</label>
                 <a className="text-[11px] font-semibold text-secondary hover:underline transition-all" href="#forgot">
@@ -130,7 +132,7 @@ export default function Login() {
             </div>
 
             {/* Remember Me */}
-            <div className="flex items-center gap-xs">
+            <div className="flex items-center gap-x-small">
               <div className="relative flex items-center cursor-pointer">
                 <input
                   className="w-5 h-5 rounded border-outline-variant/50 text-primary focus:ring-primary/20 cursor-pointer"
@@ -169,7 +171,7 @@ export default function Login() {
 
         {/* Decorative Floating Accent */}
         <div className="fixed bottom-margin-desktop right-margin-desktop hidden lg:block opacity-40">
-          <div className="flex items-center gap-sm bg-surface-container-low px-sm py-xs rounded-full border border-outline-variant/20 shadow-sm">
+          <div className="flex items-center gap-small bg-surface-container-low px-small py-x-small rounded-full border border-outline-variant/20 shadow-sm">
             <div className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
             <span className="font-label-md text-label-md text-on-surface-variant tracking-widest uppercase">System Status: Freshly Baked</span>
           </div>

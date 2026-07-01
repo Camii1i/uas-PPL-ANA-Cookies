@@ -40,9 +40,9 @@ export default function Layout() {
     <div className="min-h-screen bg-surface">
       {/* SideNavBar (Shared Component) */}
       <aside className="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-surface-container-low shadow-[0_4px_20px_rgba(62,39,35,0.06)] z-50">
-        <div className="flex flex-col h-full py-md gap-xs">
+        <div className="flex flex-col h-full py-medium gap-x-small">
           {/* Brand Header */}
-          <div className="px-md mb-lg">
+          <div className="px-medium mb-lg">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
                 <span className="material-symbols-outlined">bakery_dining</span>
@@ -107,7 +107,7 @@ export default function Layout() {
       <div className="md:ml-64 min-h-screen flex flex-col">
         {/* TopNavBar */}
         <header className="w-full h-20 sticky top-0 z-40 bg-surface border-b border-outline-variant/30 shadow-sm flex justify-between items-center px-margin-desktop">
-          <div className="flex items-center gap-md">
+          <div className="flex items-center gap-medium">
             <div className="relative focus-within:ring-2 focus-within:ring-primary/20 rounded-full transition-all">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
               <input
@@ -117,7 +117,7 @@ export default function Layout() {
               />
             </div>
           </div>
-          <div className="flex items-center gap-md relative">
+          <div className="flex items-center gap-medium relative">
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
               className="text-on-surface-variant hover:text-primary transition-colors relative p-2 rounded-full hover:bg-surface-container-low"

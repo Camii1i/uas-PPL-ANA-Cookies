@@ -100,9 +100,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-margin-desktop space-y-lg animate-in fade-in duration-300">
+    <div className="p-margin-desktop space-y-large animate-in fade-in duration-300">
       {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-md">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-medium">
         <div>
           <h2 className="font-headline-md text-[32px] text-primary mb-1">Morning, Julia</h2>
           <p className="font-body-md text-body-md text-on-surface-variant">Here's what's baking in the SweetCrumbs oven today.</p>
@@ -127,7 +127,7 @@ export default function Dashboard() {
         {/* Total Products */}
         <div 
           onClick={() => navigate("/products")}
-          className="bg-white p-md rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-pointer"
+          className="bg-white p-medium rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-pointer"
         >
           <div className="flex justify-between items-start mb-4">
             <div className="w-12 h-12 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container">
@@ -144,7 +144,7 @@ export default function Dashboard() {
         {/* Total Orders */}
         <div 
           onClick={() => navigate("/orders")}
-          className="bg-white p-md rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-pointer"
+          className="bg-white p-medium rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-pointer"
         >
           <div className="flex justify-between items-start mb-4">
             <div className="w-12 h-12 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary">
@@ -161,7 +161,7 @@ export default function Dashboard() {
         {/* Total Revenue */}
         <div 
           onClick={() => navigate("/reports")}
-          className="bg-white p-md rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-pointer border-t-4 border-primary"
+          className="bg-white p-medium rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-pointer border-t-4 border-primary"
         >
           <div className="flex justify-between items-start mb-4">
             <div className="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary">
@@ -179,7 +179,7 @@ export default function Dashboard() {
         </div>
 
         {/* Best Seller */}
-        <div className="bg-white p-md rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-default">
+        <div className="bg-white p-medium rounded-[24px] card-shadow flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-default">
           <div className="flex justify-between items-start mb-4">
             <div className="w-12 h-12 rounded-2xl bg-surface-container flex items-center justify-center text-secondary">
               <span className="material-symbols-outlined">star</span>
@@ -197,7 +197,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
         {/* Recent Orders Table */}
         <div className="lg:col-span-2 bg-white rounded-[24px] card-shadow overflow-hidden flex flex-col">
-          <div className="p-md flex justify-between items-center border-b border-outline-variant/20">
+          <div className="p-medium flex justify-between items-center border-b border-outline-variant/20">
             <h3 className="font-headline-sm text-headline-sm text-on-surface">Recent Orders</h3>
             <button 
               onClick={() => navigate("/orders")}
@@ -210,17 +210,17 @@ export default function Dashboard() {
             <table className="w-full text-left">
               <thead className="bg-surface-container-low">
                 <tr>
-                  <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase">Customer</th>
-                  <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase">Date</th>
-                  <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase text-right">Total</th>
-                  <th className="px-md py-4 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
-                  <th className="px-md py-4"></th>
+                  <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase">Customer</th>
+                  <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase">Date</th>
+                  <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase text-right">Total</th>
+                  <th className="px-medium py-4 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
+                  <th className="px-medium py-4"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/10">
                 {recentOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-surface-container-low/30 transition-colors group">
-                    <td className="px-md py-5">
+                    <td className="px-medium py-5">
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${order.bgClass}`}>
                           {order.initials}
@@ -228,14 +228,14 @@ export default function Dashboard() {
                         <span className="font-body-md text-body-md font-semibold">{order.customer}</span>
                       </div>
                     </td>
-                    <td className="px-md py-5 font-body-md text-body-md text-on-surface-variant">{order.date}</td>
-                    <td className="px-md py-5 font-body-md text-body-md text-on-surface text-right font-semibold">{order.total}</td>
-                    <td className="px-md py-5">
+                    <td className="px-medium py-5 font-body-md text-body-md text-on-surface-variant">{order.date}</td>
+                    <td className="px-medium py-5 font-body-md text-body-md text-on-surface text-right font-semibold">{order.total}</td>
+                    <td className="px-medium py-5">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${order.statusClass}`}>
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-md py-5 text-right">
+                    <td className="px-medium py-5 text-right">
                       <button 
                         onClick={() => navigate("/orders")}
                         className="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
@@ -252,14 +252,14 @@ export default function Dashboard() {
 
         {/* Stock Alert Section */}
         <div className="bg-white rounded-[24px] card-shadow flex flex-col">
-          <div className="p-md border-b border-outline-variant/20">
+          <div className="p-medium border-b border-outline-variant/20">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-error">warning</span>
               <h3 className="font-headline-sm text-headline-sm text-on-surface">Stock Alert</h3>
             </div>
             <p className="font-body-md text-body-md text-on-surface-variant mt-1">Refill ingredients soon.</p>
           </div>
-          <div className="p-md space-y-4 flex-1">
+          <div className="p-medium space-y-4 flex-1">
             {alerts.length === 0 ? (
               <div className="p-4 bg-green-50 rounded-2xl text-center text-green-700 text-xs font-semibold">
                 ✨ All ingredients are fully stocked!
@@ -316,12 +316,12 @@ export default function Dashboard() {
 
       {/* Bottom Section: Marketing & Tips */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-        <div className="bg-primary p-xl rounded-[32px] text-on-primary relative overflow-hidden flex flex-col justify-center min-h-[160px]">
+        <div className="bg-primary p-x-large rounded-[32px] text-on-primary relative overflow-hidden flex flex-col justify-center min-h-[160px]">
           {/* Subtle pattern background */}
           <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "24px 24px" }}></div>
           <div className="relative z-10">
             <h4 className="font-headline-md text-headline-md mb-2">Holiday Pre-orders</h4>
-            <p className="font-body-lg text-body-lg mb-6 max-w-md opacity-90">Prepare your inventory for the Christmas rush. We're expecting a 40% increase in gift box orders this season.</p>
+            <p className="font-body-lg text-body-lg mb-6 max-w-[28rem] opacity-90">Prepare your inventory for the Christmas rush. We're expecting a 40% increase in gift box orders this season.</p>
             <button
               onClick={() => navigate("/products")}
               className="bg-white text-primary px-6 py-3 rounded-full font-label-md text-label-md hover:bg-primary-fixed transition-colors cursor-pointer"
@@ -330,7 +330,7 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
-        <div className="bg-surface-container-high p-xl rounded-[32px] flex flex-col justify-center min-h-[160px]">
+        <div className="bg-surface-container-high p-x-large rounded-[32px] flex flex-col justify-center min-h-[160px]">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
               <span className="material-symbols-outlined text-[32px]">lightbulb</span>
