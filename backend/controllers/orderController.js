@@ -6,7 +6,7 @@ const getAllOrders = async (req, res) => {
 
     try {
       const [orders] = await connection.execute(
-        `SELECT o.id, o.order_number, u.name as customer_name, 
+        `SELECT o.id, o.order_number, u.name as customer_name, u.email as customer_email, 
                 o.total_price, o.status, o.created_at 
          FROM orders o 
          JOIN users u ON o.user_id = u.id 
@@ -45,7 +45,7 @@ const getOrderById = async (req, res) => {
 
     try {
       const [orders] = await connection.execute(
-        `SELECT o.id, o.order_number, u.name as customer_name, 
+        `SELECT o.id, o.order_number, u.name as customer_name, u.email as customer_email, 
                 o.total_price, o.status, o.created_at 
          FROM orders o 
          JOIN users u ON o.user_id = u.id 
@@ -138,7 +138,7 @@ const createOrder = async (req, res) => {
       await connection.commit();
 
       const [newOrder] = await connection.execute(
-        `SELECT o.id, o.order_number, u.name as customer_name, 
+        `SELECT o.id, o.order_number, u.name as customer_name, u.email as customer_email, 
                 o.total_price, o.status, o.created_at 
          FROM orders o 
          JOIN users u ON o.user_id = u.id 
@@ -231,7 +231,7 @@ const updateOrder = async (req, res) => {
       );
 
       const [updatedOrder] = await connection.execute(
-        `SELECT o.id, o.order_number, u.name as customer_name, 
+        `SELECT o.id, o.order_number, u.name as customer_name, u.email as customer_email, 
                 o.total_price, o.status, o.created_at 
          FROM orders o 
          JOIN users u ON o.user_id = u.id 
