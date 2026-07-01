@@ -6,13 +6,14 @@ const {
   updateOrder,
   deleteOrder
 } = require("../controllers/orderController");
+const { verifyToken } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/", getAllOrders);
-router.get("/:id", getOrderById);
-router.post("/", createOrder);
-router.put("/:id", updateOrder);
-router.delete("/:id", deleteOrder);
+router.get("/", verifyToken, getAllOrders);
+router.get("/:id", verifyToken, getOrderById);
+router.post("/", verifyToken, createOrder);
+router.put("/:id", verifyToken, updateOrder);
+router.delete("/:id", verifyToken, deleteOrder);
 
 module.exports = router;

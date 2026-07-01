@@ -6,7 +6,7 @@ const getAllProducts = async (req, res) => {
 
     try {
       const [products] = await connection.execute(
-        "SELECT id, name, description, price, stock, image_url FROM products ORDER BY id"
+        "SELECT id, name, description, category, price, stock, max_stock, image_url FROM products ORDER BY id"
       );
 
       res.status(200).json({
@@ -41,7 +41,7 @@ const getProductById = async (req, res) => {
 
     try {
       const [products] = await connection.execute(
-        "SELECT id, name, description, price, stock, image_url FROM products WHERE id = ?",
+        "SELECT id, name, description, category, price, stock, max_stock, image_url FROM products WHERE id = ?",
         [id]
       );
 

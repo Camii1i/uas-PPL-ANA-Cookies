@@ -76,7 +76,7 @@ export default function Dashboard() {
             totalProducts: data.totalProducts || 0,
             totalOrders: data.totalOrders || 0,
             totalRevenue: data.totalRevenue || 0,
-            bestSeller: data.bestSeller || "",
+            bestSeller: data.bestSeller || null,
           });
         }
       } catch (error) {
@@ -187,7 +187,7 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Best Seller</p>
-            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : stats.bestSeller}</h3>
+            <h3 className="font-headline-sm text-headline-sm text-on-surface">{isLoading ? "..." : (stats.bestSeller?.name || "Belum ada data")}</h3>
           </div>
         </div>
       </div>

@@ -111,6 +111,8 @@ const createOrder = async (req, res) => {
     const connection = await pool.getConnection();
 
     try {
+      await connection.beginTransaction();
+
       const [result] = await connection.execute(
         `INSERT INTO orders (user_id, order_number, total_price, status) 
          VALUES (?, ?, ?, ?)`,
@@ -133,6 +135,8 @@ const createOrder = async (req, res) => {
         }
       }
 
+      await connection.commit();
+
       const [newOrder] = await connection.execute(
         `SELECT o.id, o.order_number, u.name as customer_name, 
                 o.total_price, o.status, o.created_at 
@@ -147,6 +151,9 @@ const createOrder = async (req, res) => {
         message: "Order created successfully",
         data: newOrder[0]
       });
+    } catch (err) {
+      await connection.rollback();
+      throw err;
     } finally {
       connection.release();
     }

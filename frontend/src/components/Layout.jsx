@@ -1,5 +1,6 @@
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import authService from "../services/authService";
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ export default function Layout() {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    authService.logout();
     navigate("/");
   };
 

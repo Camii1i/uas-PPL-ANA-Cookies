@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import authService from "../services/authService";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -8,15 +9,27 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    
     if (!email || !password) {
       setError("Please fill in all fields.");
       return;
     }
-    // Simulate successful login
-    navigate("/dashboard");
+
+    setIsLoading(true);
+    const result = await authService.login(email, password);
+    
+    if (result.success) {
+      navigate("/dashboard");
+    } else {
+      setError(result.message || "Login failed");
+    }
+    
+    setIsLoading(false);
   };
 
   return (
@@ -123,11 +136,12 @@ export default function Login() {
 
             {/* CTA Button */}
             <button
-              className="mt-xs w-full py-4 bg-primary text-on-primary font-title-lg rounded-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+              disabled={isLoading}
+              className="mt-xs w-full py-4 bg-primary text-on-primary font-title-lg rounded-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
             >
-              Login to Dashboard
-              <span className="material-symbols-outlined select-none">arrow_forward</span>
+              {isLoading ? "Logging in..." : "Login to Dashboard"}
+              {!isLoading && <span className="material-symbols-outlined select-none">arrow_forward</span>}
             </button>
           </form>
 

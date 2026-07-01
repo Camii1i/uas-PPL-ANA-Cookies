@@ -1,11 +1,15 @@
 import axios from "axios";
+import authService from "./authService";
 
 const API_URL = "http://localhost:5000/api";
 
 const orderService = {
   getAllOrders: async () => {
     try {
-      const response = await axios.get(`${API_URL}/orders`);
+      const token = authService.getToken();
+      const response = await axios.get(`${API_URL}/orders`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data.data || [];
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -15,7 +19,10 @@ const orderService = {
 
   getOrderById: async (id) => {
     try {
-      const response = await axios.get(`${API_URL}/orders/${id}`);
+      const token = authService.getToken();
+      const response = await axios.get(`${API_URL}/orders/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data.data;
     } catch (error) {
       console.error("Error fetching order:", error);
@@ -25,7 +32,10 @@ const orderService = {
 
   createOrder: async (orderData) => {
     try {
-      const response = await axios.post(`${API_URL}/orders`, orderData);
+      const token = authService.getToken();
+      const response = await axios.post(`${API_URL}/orders`, orderData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data;
     } catch (error) {
       return {
@@ -37,7 +47,10 @@ const orderService = {
 
   updateOrder: async (id, orderData) => {
     try {
-      const response = await axios.put(`${API_URL}/orders/${id}`, orderData);
+      const token = authService.getToken();
+      const response = await axios.put(`${API_URL}/orders/${id}`, orderData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data;
     } catch (error) {
       return {
@@ -49,7 +62,10 @@ const orderService = {
 
   deleteOrder: async (id) => {
     try {
-      const response = await axios.delete(`${API_URL}/orders/${id}`);
+      const token = authService.getToken();
+      const response = await axios.delete(`${API_URL}/orders/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data;
     } catch (error) {
       return {
@@ -61,7 +77,10 @@ const orderService = {
 
   getDashboardStats: async () => {
     try {
-      const response = await axios.get(`${API_URL}/dashboard`);
+      const token = authService.getToken();
+      const response = await axios.get(`${API_URL}/dashboard`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data.data;
     } catch (error) {
       console.error("Error fetching dashboard stats:", error);

@@ -1,11 +1,14 @@
 import axios from "axios";
+import authService from "./authService";
 
 const API_URL = "http://localhost:5000/api";
 
 const productService = {
   getAllProducts: async () => {
     try {
-      const response = await axios.get(`${API_URL}/products`);
+      const token = authService.getToken();
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await axios.get(`${API_URL}/products`, { headers });
       return response.data.data || [];
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -15,7 +18,9 @@ const productService = {
 
   getProductById: async (id) => {
     try {
-      const response = await axios.get(`${API_URL}/products/${id}`);
+      const token = authService.getToken();
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await axios.get(`${API_URL}/products/${id}`, { headers });
       return response.data.data;
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -25,7 +30,10 @@ const productService = {
 
   createProduct: async (productData) => {
     try {
-      const response = await axios.post(`${API_URL}/products`, productData);
+      const token = authService.getToken();
+      const response = await axios.post(`${API_URL}/products`, productData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data;
     } catch (error) {
       return {
@@ -37,7 +45,10 @@ const productService = {
 
   updateProduct: async (id, productData) => {
     try {
-      const response = await axios.put(`${API_URL}/products/${id}`, productData);
+      const token = authService.getToken();
+      const response = await axios.put(`${API_URL}/products/${id}`, productData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data;
     } catch (error) {
       return {
@@ -49,7 +60,10 @@ const productService = {
 
   deleteProduct: async (id) => {
     try {
-      const response = await axios.delete(`${API_URL}/products/${id}`);
+      const token = authService.getToken();
+      const response = await axios.delete(`${API_URL}/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       return response.data;
     } catch (error) {
       return {
@@ -61,3 +75,4 @@ const productService = {
 };
 
 export default productService;
+
