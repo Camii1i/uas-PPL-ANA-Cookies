@@ -9,7 +9,9 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(",") : "*"
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {

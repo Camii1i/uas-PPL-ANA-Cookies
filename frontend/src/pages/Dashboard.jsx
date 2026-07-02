@@ -300,7 +300,7 @@ export default function Dashboard() {
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 style={{
-                  backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuASPA8j2HTgrlfOWCtn2U9oQ03NUFBDo1Qwf79VDK-QeHK3iokReg-eY0YjgM0deyBVDia9fyEs25n71eKQmHOVKGjo2DiiA1yU4iBYWiUaItOUa_UjK0GF5wNaJgYyIBm-X7G-XH2ecqWrbpaYenC9nP5ehKRK7r7CtWWBkZaeIglubQjsCEkLhEcu82YI_LCSr2TwPr86QesCkmt31DNGM_2KWaq3uFzjIzbKeohPr_pSzcqcp5kAmA')`,
+                  backgroundImage: `url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCClL-BYTTmi4Y66UEoD8XRL4SoUpfjs6TrWA1FEB82T1uc34zaxwWLcqW&s=10')`,
                 }}
                 alt="Baking fresh cookies decoration"
               />

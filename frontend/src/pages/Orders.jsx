@@ -96,31 +96,15 @@ export default function Orders() {
     setIsModalOpen(true);
   };
 
-  const updateOrderStatus = (orderId, newStatus) => {
-    let statusClass = "";
-    let dotClass = "";
-    
-    switch (newStatus) {
-      case "Processing":
-        statusClass = "bg-[#fce8d5] text-[#714614] border-[#714614]/10";
-        dotClass = "bg-[#714614]";
-        break;
-      case "Completed":
-        statusClass = "bg-[#e7f3e8] text-[#2e7d32] border-[#2e7d32]/10";
-        dotClass = "bg-[#2e7d32]";
-        break;
-      case "Pending":
-        statusClass = "bg-[#fff4e5] text-[#ff9800] border-[#ff9800]/10";
-        dotClass = "bg-[#ff9800]";
-        break;
-      case "Shipped":
-        statusClass = "bg-[#e3f2fd] text-[#1976d2] border-[#1976d2]/10";
-        dotClass = "bg-[#1976d2]";
-        break;
-      default:
-        statusClass = "bg-[#fff4e5] text-[#ff9800] border-[#ff9800]/10";
-        dotClass = "bg-[#ff9800]";
+  const updateOrderStatus = async (orderId, newStatus) => {
+    const result = await orderService.updateOrder(orderId, { status: newStatus });
+
+    if (!result.success) {
+      alert(result.message || "Failed to update order status.");
+      return;
     }
+
+    const { statusClass, dotClass } = getStatusStyling(newStatus);
 
     const updatedOrders = orders.map(o => o.id === orderId ? {
       ...o,
@@ -149,7 +133,7 @@ export default function Orders() {
   // Filter & Search logic
   const filteredOrders = orders.filter(o => {
     const matchesSearch = o.customerName.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          o.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          o.orderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           o.customerEmail.toLowerCase().includes(searchQuery.toLowerCase());
     
     let matchesStatus = true;
@@ -347,7 +331,7 @@ export default function Orders() {
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
             style={{
-              backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZZ9eJ4PAvldboqaciFehRQc6Rs2FcY0B7z0qLlVCdnEtpOOHVhgGPek0QC6wcbgo_xpswcJSaCbF5_Y5i_FPlRhrOyH8pAidb4AT8rwf5xzNViVpmg-HlhFBf1m5kQjtFC_j_w4bG3izFkQpYaJhnVTQFOr6jqE3ACKxUhKVs5JVADgSbWnc_8WCPesM3KLENWAYkUH9KEyGFN1rKKXrjqAR28QdbfCXGT29ul2rern7gLzUE1OEleg')`,
+              backgroundImage: `url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHO2SdZsQAyKJyvAr7Taidbk1C-FU0Ak0JB_izoeF_9VFOeEioN46DAyI&s=10')`,
             }}
             alt="Artisanal chocolate chip cookies in progress"
           />

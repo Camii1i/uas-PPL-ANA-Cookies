@@ -9,26 +9,35 @@ export default function Products() {
   // Simulated initial products catalog
   const [products, setProducts] = useState([]);
 
+  // Transforms a raw backend product row into the shape used by this page's UI
+  const transformProduct = (product) => {
+    const stock = parseInt(product.stock) || 0;
+    const maxStock = parseInt(product.max_stock ?? product.maxStock) || 100;
+    const category = product.category || "Classic";
+    return {
+      id: product.id,
+      name: product.name,
+      description: product.description || "Freshly baked handcrafted bakery selection.",
+      category,
+      price: parseFloat(product.price) || 0,
+      stock,
+      maxStock,
+      status: stock <= 20 ? "Low Stock" : "In Stock",
+      colorClass: stock <= 20 ? "bg-error" : (category === "Exotic" ? "bg-tertiary" : "bg-secondary"),
+      tagClass: category === "Exotic" || category === "Nutty"
+        ? "bg-tertiary-fixed/30 text-on-tertiary-fixed-variant"
+        : "bg-secondary-fixed/30 text-on-secondary-fixed-variant",
+      image: product.image_url || product.image || "https://lh3.googleusercontent.com/aida-public/AB6AXuARNwEXgfR9_pDOqUPvhgr7GNrNU9LCVcPt6fpwluzX6qaJhoW54dCAqKP_B9ZX-_Ro8R-cM-sOOv-9bb8kVRwtbOIH25Eqw2A12gZui0vU0x2_MOSLWzgo5Twx4Kn5hCAeu_uu6BTzYis3hs__Njjiyr7UqcWShRQO9-TzXjoPrK6bkNeEcImisACGRYUaiJehySuHAlhcbc32f3FpgHb2bg1TXy2d4DeN8VKw0fh6hW3Ci_0DLWLrqQ"
+    };
+  };
+
   // Fetch products from API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const data = await productService.getAllProducts();
         if (data && Array.isArray(data)) {
-          const transformedProducts = data.map(product => ({
-            id: product.id,
-            name: product.name,
-            description: product.description || "Freshly baked handcrafted bakery selection.",
-            category: product.category || "Classic",
-            price: parseFloat(product.price) || 0,
-            stock: parseInt(product.stock) || 0,
-            maxStock: parseInt(product.maxStock) || 100,
-            status: product.status || (parseInt(product.stock) <= 20 ? "Low Stock" : "In Stock"),
-            colorClass: product.colorClass || (parseInt(product.stock) <= 20 ? "bg-error" : "bg-secondary"),
-            tagClass: product.tagClass || "bg-secondary-fixed/30 text-on-secondary-fixed-variant",
-            image: product.image || "https://lh3.googleusercontent.com/aida-public/AB6AXuARNwEXgfR9_pDOqUPvhgr7GNrNU9LCVcPt6fpwluzX6qaJhoW54dCAqKP_B9ZX-_Ro8R-cM-sOOv-9bb8kVRwtbOIH25Eqw2A12gZui0vU0x2_MOSLWzgo5Twx4Kn5hCAeu_uu6BTzYis3hs__Njjiyr7UqcWShRQO9-TzXjoPrK6bkNeEcImisACGRYUaiJehySuHAlhcbc32f3FpgHb2bg1TXy2d4DeN8VKw0fh6hW3Ci_0DLWLrqQ"
-          }));
-          setProducts(transformedProducts);
+          setProducts(data.map(transformProduct));
         }
       } catch (error) {
         console.error("Failed to fetch products:", error);
@@ -74,7 +83,9 @@ export default function Products() {
     setIsModalOpen(true);
   };
 
-  const handleSaveProduct = (e) => {
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSaveProduct = async (e) => {
     e.preventDefault();
     if (!formName || !formPrice || !formStock) {
       alert("Please fill in required fields.");
@@ -83,51 +94,49 @@ export default function Products() {
 
     const priceNum = parseFloat(formPrice);
     const stockNum = parseInt(formStock, 10);
-    const stockStatus = stockNum <= 20 ? "Low Stock" : "In Stock";
-    const colorClass = stockNum <= 20 ? "bg-error" : (formCategory === "Exotic" ? "bg-tertiary" : "bg-secondary");
-    const tagClass = formCategory === "Exotic" || formCategory === "Nutty" 
-      ? "bg-tertiary-fixed/30 text-on-tertiary-fixed-variant"
-      : "bg-secondary-fixed/30 text-on-secondary-fixed-variant";
 
-    const defaultImage = "https://lh3.googleusercontent.com/aida-public/AB6AXuARNwEXgfR9_pDOqUPvhgr7GNrNU9LCVcPt6fpwluzX6qaJhoW54dCAqKP_B9ZX-_Ro8R-cM-sOOv-9bb8kVRwtbOIH25Eqw2A12gZui0vU0x2_MOSLWzgo5Twx4Kn5hCAeu_uu6BTzYis3hs__Njjiyr7UqcWShRQO9-TzXjoPrK6bkNeEcImisACGRYUaiJehySuHAlhcbc32f3FpgHb2bg1TXy2d4DeN8VKw0fh6hW3Ci_0DLWLrqQ";
+    const payload = {
+      name: formName,
+      description: formDesc || "Freshly baked handcrafted bakery selection.",
+      category: formCategory,
+      price: priceNum,
+      stock: stockNum,
+      image_url: formImage || undefined
+    };
 
-    if (modalMode === "add") {
-      const newProduct = {
-        id: products.length + 1,
-        name: formName,
-        description: formDesc || "Freshly baked handcrafted bakery selection.",
-        category: formCategory,
-        price: priceNum,
-        stock: stockNum,
-        maxStock: 100,
-        status: stockStatus,
-        colorClass,
-        tagClass,
-        image: formImage || defaultImage
-      };
-      setProducts([...products, newProduct]);
-    } else {
-      setProducts(products.map(p => p.id === editingId ? {
-        ...p,
-        name: formName,
-        description: formDesc,
-        category: formCategory,
-        price: priceNum,
-        stock: stockNum,
-        status: stockStatus,
-        colorClass,
-        tagClass,
-        image: formImage || p.image
-      } : p));
+    setIsSaving(true);
+    try {
+      if (modalMode === "add") {
+        const result = await productService.createProduct(payload);
+        if (!result.success) {
+          alert(result.message || "Failed to create product.");
+          return;
+        }
+        setProducts([...products, transformProduct(result.data)]);
+      } else {
+        const result = await productService.updateProduct(editingId, payload);
+        if (!result.success) {
+          alert(result.message || "Failed to update product.");
+          return;
+        }
+        setProducts(products.map(p => p.id === editingId ? transformProduct(result.data) : p));
+      }
+      setIsModalOpen(false);
+    } finally {
+      setIsSaving(false);
     }
-
-    setIsModalOpen(false);
   };
 
-  const handleDeleteProduct = (id) => {
-    if (confirm("Are you sure you want to delete this product from stock catalog?")) {
-      setProducts(products.filter(p => p.id !== id));
+  const handleDeleteProduct = async (id) => {
+    if (!confirm("Are you sure you want to delete this product from stock catalog?")) {
+      return;
     }
+    const result = await productService.deleteProduct(id);
+    if (!result.success) {
+      alert(result.message || "Failed to delete product.");
+      return;
+    }
+    setProducts(products.filter(p => p.id !== id));
   };
 
   // Filter & Search logic
@@ -470,9 +479,10 @@ export default function Products() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:brightness-110 transition-all cursor-pointer"
+                  disabled={isSaving}
+                  className="px-5 py-2.5 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:brightness-110 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {modalMode === "add" ? "Add to Catalog" : "Save Changes"}
+                  {isSaving ? "Saving..." : (modalMode === "add" ? "Add to Catalog" : "Save Changes")}
                 </button>
               </div>
             </form>

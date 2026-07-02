@@ -114,8 +114,8 @@ const createOrder = async (req, res) => {
       await connection.beginTransaction();
 
       const [result] = await connection.execute(
-        `INSERT INTO orders (user_id, order_number, total_price, status) 
-         VALUES (?, ?, ?, ?)`,
+        `INSERT INTO orders (user_id, order_number, total_price, status, order_date) 
+         VALUES (?, ?, ?, ?, NOW())`,
         [user_id, order_number, total_price, status || "Pending"]
       );
 

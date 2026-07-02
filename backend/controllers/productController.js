@@ -70,7 +70,7 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, description, price, stock, image_url } = req.body;
+    const { name, description, category, price, stock, max_stock, image_url } = req.body;
 
     if (!name || !price) {
       return res.status(400).json({
@@ -90,21 +90,27 @@ const createProduct = async (req, res) => {
 
     try {
       const [result] = await connection.execute(
-        "INSERT INTO products (name, description, price, stock, image_url) VALUES (?, ?, ?, ?, ?)",
-        [name, description || null, price, stock || 0, image_url || null]
+        "INSERT INTO products (name, description, category, price, stock, max_stock, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [
+          name,
+          description || null,
+          category || "Classic",
+          price,
+          stock || 0,
+          max_stock || 100,
+          image_url || null
+        ]
+      );
+
+      const [newProduct] = await connection.execute(
+        "SELECT id, name, description, category, price, stock, max_stock, image_url FROM products WHERE id = ?",
+        [result.insertId]
       );
 
       res.status(201).json({
         success: true,
         message: "Product created successfully",
-        data: {
-          id: result.insertId,
-          name,
-          description: description || null,
-          price,
-          stock: stock || 0,
-          image_url: image_url || null
-        }
+        data: newProduct[0]
       });
     } finally {
       connection.release();
@@ -121,7 +127,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, price, stock, image_url } = req.body;
+    const { name, description, category, price, stock, max_stock, image_url } = req.body;
 
     if (!id || isNaN(id)) {
       return res.status(400).json({
@@ -163,6 +169,10 @@ const updateProduct = async (req, res) => {
         updates.push("description = ?");
         values.push(description);
       }
+      if (category !== undefined) {
+        updates.push("category = ?");
+        values.push(category);
+      }
       if (price !== undefined) {
         updates.push("price = ?");
         values.push(price);
@@ -170,6 +180,10 @@ const updateProduct = async (req, res) => {
       if (stock !== undefined) {
         updates.push("stock = ?");
         values.push(stock);
+      }
+      if (max_stock !== undefined) {
+        updates.push("max_stock = ?");
+        values.push(max_stock);
       }
       if (image_url !== undefined) {
         updates.push("image_url = ?");
@@ -191,7 +205,7 @@ const updateProduct = async (req, res) => {
       );
 
       const [updatedProduct] = await connection.execute(
-        "SELECT id, name, description, price, stock, image_url FROM products WHERE id = ?",
+        "SELECT id, name, description, category, price, stock, max_stock, image_url FROM products WHERE id = ?",
         [id]
       );
 
